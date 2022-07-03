@@ -52,7 +52,6 @@ class PostKtTest {
                 edit_mode = EditMode.all),
             postponed_id = 0)
         WallService.add(post)
-        WallService.print()
         Assert.assertEquals(1, WallService.getPosts().size)
         Assert.assertTrue(WallService.getPosts().contains(post.copy(id = 1)))
     }
@@ -108,7 +107,6 @@ class PostKtTest {
         WallService.add(post)
         val bool = WallService.update(updatedPost.copy(id = 1))
         Assert.assertTrue(bool)
-        WallService.print()
         Assert.assertEquals(1, WallService.getPosts().size)
         Assert.assertTrue(WallService.getPosts().contains(updatedPost.copy(id = 1)))
     }
