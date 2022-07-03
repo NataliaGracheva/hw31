@@ -85,16 +85,6 @@ object WallService {
     }
 
     fun update(post: Post): Boolean {
-//        val p = posts.find { it.id == post.id }
-//        return if (p != null) {
-//            posts[posts.indexOf(p)] = post.copy(
-//                from_id = post.from_id,
-//                text = post.text,
-//                postponed_id = post.postponed_id)
-//            true
-//        } else {
-//            false
-//        }
 
        for ((index, el) in posts.withIndex()) {
            if (el.id == post.id) {
