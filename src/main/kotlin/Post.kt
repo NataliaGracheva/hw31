@@ -1,36 +1,36 @@
 data class Post(
     val id: Int,
-    val owner_id: Int,
-    val from_id: Int,
-    val created_by: Int,
+    val ownerId: Int,
+    val fromId: Int,
+    val createdBy: Int,
     val date: Long,
     val text: String,
-    val reply_owner_id: Int,
-    val reply_post_id: Int,
-    val friends_only: Boolean,
+    val replyOwnerId: Int,
+    val replyPostId: Int,
+    val friendsOnly: Boolean,
     val comments: Comments,
     val copyright: Copyright,
     val likes: Likes,
     val reposts: Reposts,
     val views: Views,
-    val post_type: PostType,
-    val signer_id: Int,
-    val can_pin: Boolean,
-    val can_delete: Boolean,
-    val can_edit: Boolean,
-    val is_pinned: Boolean,
-    val marked_as_ads: Boolean,
-    val is_favorite: Boolean,
+    val postType: PostType,
+    val signerId: Int,
+    val canPin: Boolean,
+    val canDelete: Boolean,
+    val canEdit: Boolean,
+    val isPinned: Boolean,
+    val markedAsAds: Boolean,
+    val isFavorite: Boolean,
     val donut: Donut,
-    val postponed_id: Int
+    val postponedId: Int
 )
 
 data class Comments(
     val count: Int,
-    val can_post: Boolean,
-    val groups_can_post: Boolean,
-    val can_close: Boolean,
-    val can_open: Boolean
+    val canPost: Boolean,
+    val groupsCanPost: Boolean,
+    val canClose: Boolean,
+    val canOpen: Boolean
 )
 
 data class Copyright(
@@ -42,14 +42,14 @@ data class Copyright(
 
 data class Likes(
     val count: Int,
-    val user_likes: Boolean,
-    val can_like: Boolean,
-    val can_publish: Boolean
+    val userLikes: Boolean,
+    val canLike: Boolean,
+    val canPublish: Boolean
 )
 
 data class Reposts(
     val count: Int,
-    val user_reposted: Boolean
+    val userReposted: Boolean
 )
 
 data class Views(
@@ -61,17 +61,17 @@ enum class PostType {
 }
 
 data class Donut(
-    val is_donut: Boolean,
-    val paid_duration: Int,
+    val isDonut: Boolean,
+    val paidDuration: Int,
     val placeholder: Placeholder,
-    val can_publish_free_copy: Boolean,
-    val edit_mode: EditMode
+    val canPublishFreeCopy: Boolean,
+    val editMode: EditMode
 )
 
 class Placeholder
 
 enum class EditMode {
-    all, duration
+    ALL, DURATION
 }
 
 object WallService {
@@ -86,17 +86,13 @@ object WallService {
 
     fun update(post: Post): Boolean {
 
-       for ((index, el) in posts.withIndex()) {
-           if (el.id == post.id) {
-               posts[index] = post.copy()
-            return true
-           }
-       }
+        for ((index, el) in posts.withIndex()) {
+            if (el.id == post.id) {
+                posts[index] = post.copy(ownerId = el.ownerId, date = el.date)
+                return true
+            }
+        }
         return false
-    }
-
-    fun getPosts(): Array<Post> {
-        return posts
     }
 
     fun clearPosts() {
