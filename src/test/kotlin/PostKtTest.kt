@@ -10,8 +10,8 @@ class PostKtTest {
         createdBy = 0,
         date = 1656614136827,
         text = "test post 1",
-        replyOwnerId = 0,
-        replyPostId = 0,
+        replyOwnerId = null,
+        replyPostId = null,
         friendsOnly = false,
         comments = Comments(
             count = 0,
@@ -20,12 +20,7 @@ class PostKtTest {
             canClose = true,
             canOpen = true
         ),
-        copyright = Copyright(
-            id = 0,
-            link = "",
-            name = "",
-            type = ""
-        ),
+        copyright = null,
         likes = Likes(
             count = 0,
             userLikes = false,
@@ -38,20 +33,14 @@ class PostKtTest {
         ),
         views = Views(count = 0),
         postType = PostType.POST,
-        signerId = 0,
+        signerId = null,
         canPin = true,
         canDelete = true,
         canEdit = true,
         isPinned = false,
         markedAsAds = false,
         isFavorite = false,
-        donut = Donut(
-            isDonut = false,
-            paidDuration = 0,
-            placeholder = Placeholder(),
-            canPublishFreeCopy = false,
-            editMode = EditMode.ALL
-        ),
+        donut = null,
         postponedId = 0
     )
 
@@ -73,7 +62,8 @@ class PostKtTest {
             comments = post.comments.copy(count = 999),
             likes = post.likes.copy(count = 999),
             reposts = post.reposts.copy(count = 999),
-            views = post.views.copy(count = 999)
+            views = post.views.copy(count = 999),
+            donut = post.donut?.copy(isDonut = true)
         )
         WallService.add(post)
         Assert.assertTrue(WallService.update(updatedPost.copy(id = 1)))
