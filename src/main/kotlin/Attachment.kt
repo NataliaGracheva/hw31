@@ -1,4 +1,4 @@
-abstract class Attachment(open val type: Type)
+sealed class Attachment(open val type: Type)
 
 enum class Type {
     AUDIO, VIDEO, PHOTO, FILE, NOTE
@@ -19,7 +19,7 @@ data class Audio(
     val isHq: Boolean
 )
 
-class AudioAttachment(override val type: Type = Type.AUDIO, val audio: Audio) : Attachment(type)
+class AudioAttachment(val audio: Audio) : Attachment(Type.AUDIO)
 
 data class Video(
     val id: Int,
@@ -98,7 +98,7 @@ data class VideoReposts(
     val userReposted: Boolean
 )
 
-class VideoAttachment(override val type: Type = Type.VIDEO, val video: Video) : Attachment(type)
+class VideoAttachment(val video: Video) : Attachment(Type.VIDEO)
 
 data class Photo(
     val id: Int,
@@ -123,7 +123,7 @@ enum class PhotoType {
     S, M, X, O, P, Q, R, Y, Z, W
 }
 
-class PhotoAttachment(override val type: Type = Type.PHOTO, val photo: Photo) : Attachment(type)
+class PhotoAttachment(val photo: Photo) : Attachment(Type.PHOTO)
 
 data class File(
     val id: Int,
@@ -164,7 +164,7 @@ data class AudioMessagePreview(
     val linkMp3: String
 )
 
-class FileAttachment(override val type: Type = Type.FILE, val file: File) : Attachment(type)
+class FileAttachment(val file: File) : Attachment(Type.FILE)
 
 data class Note(
     val id: Int,
@@ -180,4 +180,4 @@ data class Note(
     val textWiki: String
 )
 
-class NoteAttachment(override val type: Type = Type.NOTE, val note: Note) : Attachment(type)
+class NoteAttachment(val note: Note) : Attachment(Type.NOTE)
