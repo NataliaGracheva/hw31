@@ -45,9 +45,24 @@ class PostKtTest {
         attachments = null
     )
 
+    private val comment: Comment = Comment(
+        fromId = 3,
+        date = 1656619999999,
+        text = "some comment",
+        donut = CommentDonut(isDonut = false),
+        parentsStack = emptyArray(),
+        thread = Thread(
+            count = 0,
+            items = emptyArray(),
+            canPost = true,
+            showReplyButton = true,
+            groupsCanPost = true
+        )
+    )
+
     @Before
     fun setUp() {
-        WallService.clearPosts()
+        WallService.clear()
     }
 
     @Test
@@ -186,7 +201,37 @@ class PostKtTest {
         )
         val added = WallService.add(postWithAttachment)
         Assert.assertArrayEquals(attachments, added.attachments)
+    }
 
+    @Test
+    fun shouldAddComment() {
+        val added = WallService.add(post)
+        val comment = WallService.createComment(added.id, comment)
+        Assert.assertEquals(added.id, comment.postId)
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrowPostNotFoundException() {
+        WallService.createComment(1, comment)
+    }
+
+    @Test
+    fun shouldAddReportComment() {
+        val added = WallService.add(post)
+        val comment = WallService.createComment(added.id, comment)
+        Assert.assertTrue(WallService.reportComment(123, commentId = comment.id, 1))
+    }
+
+    @Test(expected = WrongReasonException::class)
+    fun shouldThrowWrongReasonException() {
+        val added = WallService.add(post)
+        val comment = WallService.createComment(added.id, comment)
+        WallService.reportComment(123, commentId = comment.id, 999)
+    }
+
+    @Test(expected = CommentNotFoundException::class)
+    fun shouldThrowCommentNotFoundException() {
+        WallService.reportComment(123, commentId = 1, 1)
     }
 }
 
